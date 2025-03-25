@@ -3,131 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Mood Board Creator</title>
+    <title>Infinite Mood Board Creator</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Observer.min.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <!-- Header -->
+        <!-- Minimal Header -->
         <header>
             <div class="logo">
-                <h1>Mood Board Creator</h1>
+                <h1>∞ Mood Board</h1>
             </div>
             <div class="header-actions">
-                <button id="save-btn" class="btn primary-btn">
-                    <i class="fas fa-save"></i> Save
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
                 </button>
-                <button id="export-btn" class="btn secondary-btn">
-                    <i class="fas fa-download"></i> Export
+                <button id="save-btn" class="icon-btn" title="Save Board">
+                    <i class="fas fa-save"></i>
+                </button>
+                <button id="export-btn" class="icon-btn" title="Export Image">
+                    <i class="fas fa-download"></i>
                 </button>
             </div>
         </header>
 
         <!-- Main Content Area -->
         <main>
-            <!-- Sidebar Tool Panel -->
-            <aside class="sidebar">
-                <div class="tool-section">
-                    <h3>Add Elements</h3>
-                    <div class="tool-buttons">
-                        <button id="add-image-btn" class="tool-btn">
-                            <i class="fas fa-image"></i>
-                            <span>Image</span>
-                        </button>
-                        <button id="add-text-btn" class="tool-btn">
-                            <i class="fas fa-font"></i>
-                            <span>Text</span>
-                        </button>
-                        <button id="add-shape-btn" class="tool-btn">
-                            <i class="fas fa-shapes"></i>
-                            <span>Shape</span>
-                        </button>
-                        <button id="add-color-btn" class="tool-btn">
-                            <i class="fas fa-palette"></i>
-                            <span>Color</span>
-                        </button>
-                    </div>
+            <!-- Minimized Tools -->
+            <div class="tools-container">
+                <div class="tools-toggle">
+                    <button id="toggle-tools-btn" class="icon-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
                 </div>
+                <aside class="sidebar">
+                    <div class="tool-section">
+                        <h3>Add Elements</h3>
+                        <div class="tool-buttons">
+                            <button id="add-image-btn" class="tool-btn" title="Add Image">
+                                <i class="fas fa-image"></i>
+                            </button>
+                            <button id="add-text-btn" class="tool-btn" title="Add Text">
+                                <i class="fas fa-font"></i>
+                            </button>
+                            <button id="add-shape-btn" class="tool-btn" title="Add Shape">
+                                <i class="fas fa-shapes"></i>
+                            </button>
+                            <button id="add-color-btn" class="tool-btn" title="Add Color">
+                                <i class="fas fa-palette"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                <div class="tool-section">
-                    <h3>Upload</h3>
-                    <div class="upload-area">
-                        <label for="image-upload" class="upload-label">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <span>Upload Image</span>
-                        </label>
-                        <input type="file" id="image-upload" accept="image/*" multiple>
+                    <div class="tool-section">
+                        <h3>Upload</h3>
+                        <div class="upload-area">
+                            <label for="image-upload" class="upload-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Upload Images</span>
+                            </label>
+                            <input type="file" id="image-upload" accept="image/*" multiple>
+                        </div>
                     </div>
-                </div>
 
-                <div class="tool-section">
-                    <h3>Colors</h3>
-                    <div class="color-picker">
-                        <input type="color" id="color-input" value="#4a90e2">
-                        <button id="add-color-swatch" class="btn small-btn">Add Swatch</button>
+                    <div class="tool-section">
+                        <h3>Colors</h3>
+                        <div class="color-picker">
+                            <input type="color" id="color-input" value="#4a90e2">
+                        </div>
+                        <div class="color-swatches" id="color-swatches">
+                            <div class="color-swatch" style="background-color: #FF5252;"></div>
+                            <div class="color-swatch" style="background-color: #FFEB3B;"></div>
+                            <div class="color-swatch" style="background-color: #66BB6A;"></div>
+                            <div class="color-swatch" style="background-color: #42A5F5;"></div>
+                            <div class="color-swatch" style="background-color: #AB47BC;"></div>
+                            <div class="color-swatch" style="background-color: #FF7043;"></div>
+                            <div class="color-swatch" style="background-color: #FFFFFF;"></div>
+                            <div class="color-swatch" style="background-color: #212121;"></div>
+                        </div>
                     </div>
-                    <div class="color-swatches" id="color-swatches">
-                        <div class="color-swatch" style="background-color: #4a90e2;"></div>
-                        <div class="color-swatch" style="background-color: #50e3c2;"></div>
-                        <div class="color-swatch" style="background-color: #f5a623;"></div>
-                        <div class="color-swatch" style="background-color: #d0021b;"></div>
-                        <div class="color-swatch" style="background-color: #bd10e0;"></div>
-                    </div>
-                </div>
 
-                <div class="tool-section">
-                    <h3>Typography</h3>
-                    <div class="font-selector">
-                        <select id="font-family">
-                            <option value="Arial">Arial</option>
-                            <option value="Helvetica">Helvetica</option>
-                            <option value="Times New Roman">Times New Roman</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Courier New">Courier New</option>
-                            <option value="Verdana">Verdana</option>
-                            <option value="Impact">Impact</option>
-                        </select>
-                        <select id="font-size">
-                            <option value="12">12px</option>
-                            <option value="14">14px</option>
-                            <option value="18">18px</option>
-                            <option value="24" selected>24px</option>
-                            <option value="36">36px</option>
-                            <option value="48">48px</option>
-                            <option value="64">64px</option>
-                            <option value="72">72px</option>
-                        </select>
+                    <div class="tool-section">
+                        <h3>Typography</h3>
+                        <div class="font-selector">
+                            <select id="font-family">
+                                <option value="Arial">Arial</option>
+                                <option value="Helvetica">Helvetica</option>
+                                <option value="Montserrat">Montserrat</option>
+                                <option value="Roboto">Roboto</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Courier New">Courier New</option>
+                            </select>
+                            <div class="font-style-buttons">
+                                <button id="bold-btn" class="style-btn" title="Bold"><i class="fas fa-bold"></i></button>
+                                <button id="italic-btn" class="style-btn" title="Italic"><i class="fas fa-italic"></i></button>
+                                <button id="underline-btn" class="style-btn" title="Underline"><i class="fas fa-underline"></i></button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="font-style-buttons">
-                        <button id="bold-btn" class="style-btn"><i class="fas fa-bold"></i></button>
-                        <button id="italic-btn" class="style-btn"><i class="fas fa-italic"></i></button>
-                        <button id="underline-btn" class="style-btn"><i class="fas fa-underline"></i></button>
-                    </div>
-                </div>
 
-                <div class="tool-section">
-                    <h3>Canvas Options</h3>
-                    <div class="canvas-options">
-                        <button id="toggle-grid-btn" class="btn small-btn">Toggle Grid</button>
-                        <button id="clear-canvas-btn" class="btn small-btn danger-btn">Clear Canvas</button>
+                    <div class="tool-section">
+                        <h3>Canvas</h3>
+                        <div class="canvas-options">
+                            <button id="toggle-grid-btn" class="btn small-btn">Grid</button>
+                            <button id="clear-canvas-btn" class="btn small-btn danger-btn">Clear</button>
+                        </div>
                     </div>
-                </div>
-            </aside>
+                </aside>
+            </div>
 
-            <!-- Canvas Area -->
+            <!-- Infinite Canvas Area -->
             <section class="canvas-container">
-                <div class="canvas-wrapper">
-                    <canvas id="mood-board-canvas"></canvas>
+                <div class="infinite-canvas-wrapper" id="infinite-canvas-wrapper">
+                    <div class="canvas-wrapper">
+                        <canvas id="mood-board-canvas"></canvas>
+                    </div>
+                </div>
+
+                <!-- Navigation Controls -->
+                <div class="canvas-controls">
+                    <div class="zoom-controls">
+                        <button id="zoom-out-btn" class="icon-btn"><i class="fas fa-minus"></i></button>
+                        <span id="zoom-level">100%</span>
+                        <button id="zoom-in-btn" class="icon-btn"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <button id="reset-view-btn" class="icon-btn" title="Reset View"><i class="fas fa-home"></i></button>
                 </div>
             </section>
         </main>
 
-        <!-- Element Properties Panel (shows when an element is selected) -->
+        <!-- Properties Panel (Floating) -->
         <div class="properties-panel" id="properties-panel">
             <div class="panel-header">
-                <h3>Element Properties</h3>
+                <h3>Properties</h3>
                 <button id="close-properties" class="close-btn"><i class="fas fa-times"></i></button>
             </div>
             <div class="property-controls">
@@ -147,13 +159,27 @@
                         <option value="5">5px</option>
                     </select>
                 </div>
-                <!-- Additional controls will appear dynamically based on selected element type -->
+                
                 <div id="element-specific-controls"></div>
+                
                 <div class="property-actions">
-                    <button id="bring-forward-btn" class="btn small-btn"><i class="fas fa-arrow-up"></i> Forward</button>
-                    <button id="send-backward-btn" class="btn small-btn"><i class="fas fa-arrow-down"></i> Backward</button>
-                    <button id="delete-element-btn" class="btn small-btn danger-btn"><i class="fas fa-trash"></i> Delete</button>
+                    <button id="bring-forward-btn" class="btn small-btn"><i class="fas fa-arrow-up"></i></button>
+                    <button id="send-backward-btn" class="btn small-btn"><i class="fas fa-arrow-down"></i></button>
+                    <button id="delete-element-btn" class="btn small-btn danger-btn"><i class="fas fa-trash"></i></button>
                 </div>
+            </div>
+        </div>
+
+        <!-- Custom Connection Lines Between Elements -->
+        <div class="connection-tools" id="connection-tools">
+            <button id="create-connection-btn" class="btn small-btn">
+                <i class="fas fa-project-diagram"></i> Connect
+            </button>
+            <div class="connection-types">
+                <button data-type="solid" class="connection-type-btn active">―――</button>
+                <button data-type="dashed" class="connection-type-btn">- - -</button>
+                <button data-type="dotted" class="connection-type-btn">•••</button>
+                <button data-type="arrow" class="connection-type-btn">→</button>
             </div>
         </div>
 
@@ -180,6 +206,14 @@
                                 <option value="1">Normal (1x)</option>
                                 <option value="2" selected>High (2x)</option>
                                 <option value="3">Ultra High (3x)</option>
+                            </select>
+                        </div>
+                        <div class="export-area-option">
+                            <label for="export-area">Export Area:</label>
+                            <select id="export-area">
+                                <option value="visible">Visible Area</option>
+                                <option value="all" selected>All Content</option>
+                                <option value="selection">Selection Only</option>
                             </select>
                         </div>
                     </div>
@@ -222,12 +256,32 @@
                             <div class="shape-preview polygon"></div>
                             <span>Polygon</span>
                         </div>
+                        <div class="shape-option" data-shape="star">
+                            <div class="shape-preview star"></div>
+                            <span>Star</span>
+                        </div>
+                        <div class="shape-option" data-shape="heart">
+                            <div class="shape-preview heart"></div>
+                            <span>Heart</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Overlay when modals are open -->
+        <!-- Mini-map for navigating large canvas -->
+        <div class="minimap-container" id="minimap-container">
+            <div class="minimap-toggle">
+                <button id="toggle-minimap-btn" class="icon-btn">
+                    <i class="fas fa-map"></i>
+                </button>
+            </div>
+            <div class="minimap" id="minimap">
+                <div class="minimap-viewport" id="minimap-viewport"></div>
+            </div>
+        </div>
+
+        <!-- Overlay -->
         <div class="overlay" id="overlay"></div>
     </div>
 
